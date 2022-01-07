@@ -3,6 +3,7 @@ import './App.css';
 
 class App extends Component {
 	render() {
+
 		return (
 			<div className='App'>
 				<h1>Using React</h1>
