@@ -19,12 +19,17 @@ class App extends Component {
 		this.setState({ users: res.data, loading: false });
 	}
 
+	// Search Github Users
+	searchUsers = (text) => {
+		console.log(text);
+	}
+
 	render() {
 		return (
 			<div className='App'>
 				<Navbar title='Github Finder' icon='fab fa-github' />
 				<div className='container'>
-					<Search />
+					<Search searchUsers={this.searchUsers} />
 					<Users loading={this.state.loading} users={this.state.users} />
 				</div>
 			</div>
