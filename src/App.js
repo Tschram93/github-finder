@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import Navbar from './components/layout/Navbar';
+import PropTypes from 'prop-types';
 import Search from './components/users/Search';
 import Users from './components/users/Users';
 import './App.css';
@@ -8,21 +9,33 @@ import './App.css';
 class App extends Component {
 	state = {
 		users: [],
-		loading: false
-	}
+		loading: false,
+	};
 
-	async componentDidMount() {
-		this.setState({ loading: true });
+	static PropTypes = {
+		searchUsers: PropTypes.func.isRequired
+	};
 
-		const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+	// async componentDidMount() {
+	// 	this.setState({ loading: true });
 
-		this.setState({ users: res.data, loading: false });
-	}
+	// 	const res = await axios.get(
+	// 		`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+	// 	);
+
+	// 	this.setState({ users: res.data, loading: false });
+	// }
 
 	// Search Github Users
-	searchUsers = (text) => {
-		console.log(text);
-	}
+	searchUsers = async (text) => {
+		this.setState({ loading: true });
+
+		const res = await axios.get(
+			`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+		);
+
+		this.setState({ users: res.data.items, loading: false });
+	};
 
 	render() {
 		return (
